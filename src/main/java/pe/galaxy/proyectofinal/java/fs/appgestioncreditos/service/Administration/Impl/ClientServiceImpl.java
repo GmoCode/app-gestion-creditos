@@ -6,14 +6,12 @@ import org.springframework.stereotype.Service;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ClientEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration.IClientRepo;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IClientService;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.exception.ServiceException;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
 import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -48,14 +46,14 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public List<ClientEntity> findAllStatus() throws ServiceException {
 
-            return repo.findAllStatus().stream().sorted(Comparator.comparing(ClientEntity::getIdClient)).collect(Collectors.toList());
+            return repo.findAllStatus();
 
     }
 
     @Override
     public List<ClientEntity> findAll() throws ServiceException {
 
-           return repo.findAll().stream().sorted(Comparator.comparing(ClientEntity::getIdClient)).collect(Collectors.toList());
+           return repo.findAll();
     }
 
     @Override

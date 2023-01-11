@@ -1,5 +1,6 @@
 package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration;
 
+import ch.qos.logback.core.net.server.Client;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

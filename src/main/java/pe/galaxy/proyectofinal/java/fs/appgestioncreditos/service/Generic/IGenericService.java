@@ -1,6 +1,6 @@
 package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Generic;
 
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.exception.ServiceException;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;

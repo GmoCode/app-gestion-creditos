@@ -11,6 +11,7 @@ public class BDUtil {
 		return "%" + str + "%";
 	}
 
+<<<<<<< HEAD
 	public static Double getTaxTemp(Double tx) {
 		if (isNull(tx)) {
 			tx = 0.0;
@@ -18,4 +19,6 @@ public class BDUtil {
 		return (tx/100);
 	}
 
+=======
+>>>>>>> 2677653 (V 1.0)
 }

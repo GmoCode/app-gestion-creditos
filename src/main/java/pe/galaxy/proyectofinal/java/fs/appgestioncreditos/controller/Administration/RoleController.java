@@ -7,39 +7,38 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.controller.Generic.GenericController;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ProductEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.RoleEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IProductService;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IRoleService;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.util.WebUtil;
 
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
-import static pe.galaxy.proyectofinal.java.fs.appgestioncreditos.commons.GlobalConstant.API_PRODUCT;
+import static pe.galaxy.proyectofinal.java.fs.appgestioncreditos.commons.GlobalConstant.*;
 
 @Slf4j
 @RestController
-@RequestMapping(API_PRODUCT)
-public class ProductController extends GenericController {
+@RequestMapping(API_ROL)
+public class RoleController extends GenericController {
 
 
-    private final IProductService productService;
+    private final IRoleService roleService;
 
-    public ProductController(final IProductService productService) {
+    public RoleController(final IRoleService roleService) {
 
-        this.productService = productService;
+        this.roleService = roleService;
     }
 
-    @GetMapping("/find-productos")
+    @GetMapping("/find-roles")
     public ResponseEntity<?> findAllStatus() {
         try {
 
-            List<ProductEntity> products = productService.findAllStatus();
-            if (products.isEmpty()) {
+            List<RoleEntity> roles = roleService.findAllStatus();
+            if (roles.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(products);
+            return ResponseEntity.ok(roles);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -51,11 +50,11 @@ public class ProductController extends GenericController {
     public ResponseEntity<?> findAll() {
         try {
 
-            List<ProductEntity> products = productService.findAll();
-            if (products.isEmpty()) {
+            List<RoleEntity> roles = roleService.findAll();
+            if (roles.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(products);
+            return ResponseEntity.ok(roles);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -67,11 +66,11 @@ public class ProductController extends GenericController {
     public ResponseEntity<?> findByIdAndStatus(@PathVariable Long id) {
         try {
 
-            Optional<ProductEntity> optProduct = productService.findByIdAndStatus(id);
-            if (optProduct.isEmpty()) {
+            Optional<RoleEntity> optRole = roleService.findByIdAndStatus(id);
+            if (optRole.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(optProduct.get());
+            return ResponseEntity.ok(optRole.get());
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -80,18 +79,18 @@ public class ProductController extends GenericController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductEntity productEntity,BindingResult result){
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RoleEntity roleEntity, BindingResult result){
         if (result.hasErrors()) {
 
             return WebUtil.getErrors(result);
         }
         try {
-            productEntity.setIdProduct(id);
-            ProductEntity oProductEntity=productService.update(productEntity);
-            if (isNull(oProductEntity)) {
+            roleEntity.setIdRole(id);
+            RoleEntity oRoleEntity=roleService.update(roleEntity);
+            if (isNull(oRoleEntity)) {
                 return ResponseEntity.badRequest().build();
             }
-            return ResponseEntity.status(HttpStatus.OK).body(oProductEntity);
+            return ResponseEntity.status(HttpStatus.OK).body(oRoleEntity);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -101,9 +100,9 @@ public class ProductController extends GenericController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
-            ProductEntity productEntity = new ProductEntity();
-            productEntity.setIdProduct(id);
-            if (!isNull(productService.delete(productEntity))) {
+            RoleEntity roleEntity= new RoleEntity();
+            roleEntity.setIdRole(id);
+            if (!isNull(roleService.delete(roleEntity))) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encuentra el ID: " + id);
@@ -114,17 +113,17 @@ public class ProductController extends GenericController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody  @Validated ProductEntity productEntity, BindingResult result) {
+    public ResponseEntity<?> save(@RequestBody  @Validated RoleEntity roleEntity, BindingResult result) {
         if (result.hasErrors()) {
 
             return WebUtil.getErrors(result);
         }
         try {
-            ProductEntity oProductEntity = productService.save(productEntity);
-            if (isNull(oProductEntity)) {
+            RoleEntity oRoleEntity = roleService.save(roleEntity);
+            if (isNull(oRoleEntity)) {
                 return ResponseEntity.badRequest().build();
             }
-            return ResponseEntity.status(HttpStatus.CREATED).body(oProductEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(oRoleEntity);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();

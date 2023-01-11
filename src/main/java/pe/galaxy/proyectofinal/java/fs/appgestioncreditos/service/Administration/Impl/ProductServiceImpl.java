@@ -3,17 +3,16 @@ package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administratio
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ClientEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ProductEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration.IProductRepo;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IProductService;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.exception.ServiceException;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
 import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -47,7 +46,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductEntity> findAllStatus() throws ServiceException {
-        return repo.findAllStatus().stream().sorted(Comparator.comparing(ProductEntity::getIdProduct)).collect(Collectors.toList());
+        return repo.findAllStatus();
     }
 
     @Override

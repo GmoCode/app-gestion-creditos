@@ -7,39 +7,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.controller.Generic.GenericController;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ProductEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.RoleEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IProductService;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.util.WebUtil;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.UserEntity;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IUserService;
 
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
-import static pe.galaxy.proyectofinal.java.fs.appgestioncreditos.commons.GlobalConstant.API_PRODUCT;
+import static pe.galaxy.proyectofinal.java.fs.appgestioncreditos.commons.GlobalConstant.API_USER;
 
 @Slf4j
 @RestController
-@RequestMapping(API_PRODUCT)
-public class ProductController extends GenericController {
+@RequestMapping(API_USER)
+public class UserController extends GenericController {
 
 
-    private final IProductService productService;
+    private final IUserService userService;
 
-    public ProductController(final IProductService productService) {
+    public UserController(final IUserService userService) {
 
-        this.productService = productService;
+        this.userService = userService;
     }
 
-    @GetMapping("/find-productos")
+    @GetMapping("/find-usuarios")
     public ResponseEntity<?> findAllStatus() {
         try {
 
-            List<ProductEntity> products = productService.findAllStatus();
-            if (products.isEmpty()) {
+            List<UserEntity> users = userService.findAllStatus();
+            if (users.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(products);
+            return ResponseEntity.ok(users);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -51,11 +49,11 @@ public class ProductController extends GenericController {
     public ResponseEntity<?> findAll() {
         try {
 
-            List<ProductEntity> products = productService.findAll();
-            if (products.isEmpty()) {
+            List<UserEntity> users = userService.findAll();
+            if (users.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(products);
+            return ResponseEntity.ok(users);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -67,11 +65,11 @@ public class ProductController extends GenericController {
     public ResponseEntity<?> findByIdAndStatus(@PathVariable Long id) {
         try {
 
-            Optional<ProductEntity> optProduct = productService.findByIdAndStatus(id);
-            if (optProduct.isEmpty()) {
+            Optional<UserEntity> optUser = userService.findByIdAndStatus(id);
+            if (optUser.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(optProduct.get());
+            return ResponseEntity.ok(optUser.get());
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -80,18 +78,14 @@ public class ProductController extends GenericController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductEntity productEntity,BindingResult result){
-        if (result.hasErrors()) {
-
-            return WebUtil.getErrors(result);
-        }
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserEntity userEntity){
         try {
-            productEntity.setIdProduct(id);
-            ProductEntity oProductEntity=productService.update(productEntity);
-            if (isNull(oProductEntity)) {
+            userEntity.setIdUser(id);
+            UserEntity oUserEntity=userService.update(userEntity);
+            if (isNull(oUserEntity)) {
                 return ResponseEntity.badRequest().build();
             }
-            return ResponseEntity.status(HttpStatus.OK).body(oProductEntity);
+            return ResponseEntity.status(HttpStatus.OK).body(oUserEntity);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();
@@ -101,9 +95,9 @@ public class ProductController extends GenericController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
-            ProductEntity productEntity = new ProductEntity();
-            productEntity.setIdProduct(id);
-            if (!isNull(productService.delete(productEntity))) {
+            UserEntity userEntity= new UserEntity();
+            userEntity.setIdUser(id);
+            if (!isNull(userService.delete(userEntity))) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encuentra el ID: " + id);
@@ -114,17 +108,17 @@ public class ProductController extends GenericController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody  @Validated ProductEntity productEntity, BindingResult result) {
+    public ResponseEntity<?> save(@RequestBody  @Validated UserEntity userEntity, BindingResult result) {
         if (result.hasErrors()) {
 
-            return WebUtil.getErrors(result);
+            return getErrors(result);
         }
         try {
-            ProductEntity oProductEntity = productService.save(productEntity);
-            if (isNull(oProductEntity)) {
+            UserEntity oUserEntity = userService.save(userEntity);
+            if (isNull(oUserEntity)) {
                 return ResponseEntity.badRequest().build();
             }
-            return ResponseEntity.status(HttpStatus.CREATED).body(oProductEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(oUserEntity);
         } catch (Exception e) {
 
             return ResponseEntity.internalServerError().build();

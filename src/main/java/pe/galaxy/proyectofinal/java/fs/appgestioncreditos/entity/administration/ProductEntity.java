@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -27,10 +26,6 @@ public class ProductEntity {
     @SequenceGenerator(sequenceName = "SEQ_PRODUCTO", allocationSize = 1, name = "seqProducto")
     private Long idProduct;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORIA_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_Categoria_Producto"))
-    private CategoryEntity category;
-
     @NotNull
     @Size(min = 4, max = 4, message = "Este campo debe contener {max} caracteres")
     @Column(name = "CODIGO_PRODUCTO", unique = true)
@@ -38,7 +33,7 @@ public class ProductEntity {
 
     @NotNull
     @Size(min = 8, max = 120, message = "Este campo debe contener un minimo de {min} caracteres y un maximo de {max}")
-    @Column(name = "NOMBRE_PRODUCTO")
+    @Column(name = "NOMBRE_PROCUCTO")
     private String nameProduct;
 
     @NotNull
@@ -46,8 +41,8 @@ public class ProductEntity {
     @Column(name = "TASA_INTERES")
     private Double tax;
 
-
+    @NotNull
     @Column(name = "ESTADO")
-    private String status = "1";
+    private String status;
 
 }

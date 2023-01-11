@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -53,9 +51,8 @@ public class ClientEntity {
     @Column(name = "CORREO")
     private String emailAddress;
 
-
+    @NotNull
     @Column(name = "ESTADO")
-    private String status = "1";
-
+    private String status;
 
 }
