@@ -32,7 +32,7 @@ public class PaymentOutEntity {
     private Long idPaymentOut;
 
     @ManyToOne
-    @JoinColumn(name = "USUARIO_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Usuario"))
+    @JoinColumn(name = "ID_USUARIO", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Usuario"))
     private UserEntity user;
 
     @ManyToOne

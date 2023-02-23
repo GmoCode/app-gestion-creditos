@@ -1,100 +1,57 @@
 package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.controller.seguridad;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.springframework.security.authentication.AuthenticationManager;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+@Slf4j
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-  public JWTAuthorizationFilter(AuthenticationManager authManager) {
-    super(authManager);
-  }
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JWTUtils jwtUtils;
 
-  // Cada peticion- request
-  
-  @Override
-  protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-      throws IOException, ServletException {
-	  
-   //System.out.println("doFilterInternal...x");
-   
-    String header = req.getHeader(Constants.HEADER_AUTHORIZACION_KEY);
-    
-    if (header == null || !header.startsWith(Constants.TOKEN_BEARER_PREFIX)) {
-      chain.doFilter(req, res);
-      return;
-    }
-    
-    //System.out.println("doFilterInternal...y");
-    
-    UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-    
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    
-    chain.doFilter(req, res);
-  }
-  
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		try {
+			String jwt = parseJwt(request);
+			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+				String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-  private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-	  
-    String token = request.getHeader(Constants.HEADER_AUTHORIZACION_KEY);
-    
-    if (token != null) {
-      
-    byte signingKey[] = Constants.SUPER_SECRET_KEY.getBytes();
-      
-      // Se procesa el token y se recupera el usuario.
-      
-      String tokenValue=token.replace(Constants.TOKEN_BEARER_PREFIX, "");
-      
-      String user = Jwts.parser()
-            .setSigningKey(signingKey)
-            .parseClaimsJws(tokenValue)
-            .getBody()
-            .getSubject();
+				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-      System.out.println("user -> "+user);
-      
-      Collection<? extends GrantedAuthority> authorities=getAuthorities(tokenValue);
-      
-      //System.out.println("authorities -> "+authorities);
-      
-      List<GrantedAuthority> authoritiesItems      = new ArrayList<>();
-      
-      for (Object authority : authorities.toArray()) {
-    	  //System.out.println("authority -> "+authority);
-    	  authoritiesItems.add(new SimpleGrantedAuthority(authority.toString()));
-      }
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+		} catch (Exception e) {
+			log.error("Cannot set user authentication: {}", e);
+		}
 
-      
-      //System.out.println("authoritiesItems -> "+authoritiesItems);
-      
-      if (user != null) {
-        return new UsernamePasswordAuthenticationToken(user, null,authoritiesItems);
-      }
-      
-      return null;
-    }
-    return null;
-  }
-  
-  public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-	  byte signingKey[] = Constants.SUPER_SECRET_KEY.getBytes();
-      Claims claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
-      return (Collection<? extends GrantedAuthority>) claims.get(Constants.AUTHORITIES);
-  }
+		filterChain.doFilter(request, response);
+	}
+
+	private String parseJwt(HttpServletRequest request) {
+		String headerAuth = request.getHeader("Authorization");
+		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+			return headerAuth.substring(7, headerAuth.length());
+		}
+		return null;
+	}
 }
