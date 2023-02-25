@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ClientEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ProductEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.seguridad.UserEntity;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.util.BDUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -32,12 +35,14 @@ public class PaymentOutEntity {
     private Long idPaymentOut;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIO", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Usuario"))
+    @JoinColumn(name = "USUARIO_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Usuario"))
     private UserEntity user;
+
 
     @ManyToOne
     @JoinColumn(name = "CLIENTE_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Cliente"))
     private ClientEntity client;
+
 
     @ManyToOne
     @JoinColumn(name = "PRODUCTO_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_Desembolso_Producto"))
@@ -64,7 +69,6 @@ public class PaymentOutEntity {
     @Column(name = "FECHA_PRESTAMO")
     private LocalDate datePaymentOut = LocalDate.now();
 
-    @NotNull
     @Column(name = "MONTO_TOTAL")
     private Double total;
 
@@ -76,26 +80,17 @@ public class PaymentOutEntity {
     @JsonManagedReference
     private List<PaymentOutDetailEntity> details;
 
-    public void calculateTotal(){
+    public void calculateTotal(Double Tax){
 
         double taxTemp = 0.0;
 
-        taxTemp = (loamAmount * product.getTax());
+        taxTemp = (loamAmount * BDUtil.getTaxTemp(Tax));
+
+        taxTemp = new BigDecimal(taxTemp).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
         setTotal(loamAmount + taxTemp);
-    }
-
-    public void calculateMonthly(){
-
-        Double capitalMoney = (loamAmount / loamTerm);
-
-        Double monthPay = (total / loamTerm);
-
-        Double monthTaxRate = monthPay - capitalMoney;
-
-        PaymentOutDetailEntity details = new PaymentOutDetailEntity();
-
 
 
     }
+
 }

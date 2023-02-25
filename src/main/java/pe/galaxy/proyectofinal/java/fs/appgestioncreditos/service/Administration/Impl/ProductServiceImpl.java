@@ -10,9 +10,11 @@ import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,7 +48,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<ProductEntity> findAllStatus() throws ServiceException {
-        return repo.findAllStatus();
+        return repo.findAllStatus().stream().sorted(Comparator.comparing(ProductEntity::getIdProduct)).collect(Collectors.toList());
     }
 
     @Override

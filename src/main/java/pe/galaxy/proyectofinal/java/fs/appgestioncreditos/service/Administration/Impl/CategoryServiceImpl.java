@@ -9,9 +9,11 @@ import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,14 +48,14 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryEntity> findAllStatus() throws ServiceException {
 
-            return repo.findAllStatus();
+            return repo.findAllStatus().stream().sorted(Comparator.comparing(CategoryEntity::getIdCategory)).collect(Collectors.toList());
 
     }
 
     @Override
     public List<CategoryEntity> findAll() throws ServiceException {
 
-           return repo.findAll();
+           return repo.findAll().stream().sorted(Comparator.comparing(CategoryEntity::getIdCategory)).collect(Collectors.toList());
     }
 
     @Override
