@@ -1,4 +1,4 @@
-package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.seguridad;
+package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.seguridad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

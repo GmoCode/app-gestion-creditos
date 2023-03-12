@@ -6,7 +6,7 @@ public class AppTest {
 
 	public static void main(String[] args) {
 		
-		System.out.println(new BCryptPasswordEncoder().encode("123"));
+		System.out.println(new BCryptPasswordEncoder().encode("12345678"));
 
 	}
 

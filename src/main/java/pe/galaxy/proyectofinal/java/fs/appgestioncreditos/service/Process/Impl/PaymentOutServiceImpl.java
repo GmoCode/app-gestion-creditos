@@ -3,12 +3,11 @@ package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Process.Impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.CategoryEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ProductEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.process.PaymentOutDetailEntity;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.process.PaymentOutEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.Process.IPaymentOutRepo;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration.IProductRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.Process.IPaymentOutRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.administration.IProductRepo;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Process.IPaymentOutService;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.util.BDUtil;
@@ -17,7 +16,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

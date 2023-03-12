@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.seguridad.UserEntity;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,8 +46,8 @@ public class ProductEntity {
     @Column(name = "TASA_INTERES")
     private Double tax;
 
-    @NotNull
+
     @Column(name = "ESTADO")
-    private String status;
+    private String status = "1";
 
 }

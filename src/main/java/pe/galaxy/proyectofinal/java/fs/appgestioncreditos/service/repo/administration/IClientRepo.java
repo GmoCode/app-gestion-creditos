@@ -1,11 +1,10 @@
-package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration;
+package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.administration;
 
-import ch.qos.logback.core.net.server.Client;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ClientEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.Generic.IGenericRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.Generic.IGenericRepo;
 
 import java.util.List;
 import java.util.Optional;

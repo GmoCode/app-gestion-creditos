@@ -74,7 +74,7 @@ public class PaymentOutEntity {
 
     @NotNull
     @Column(name = "ESTADO")
-    private String status;
+    private String status ="1";
 
     @OneToMany(mappedBy = "paymentOut" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.ClientEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration.IClientRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.administration.IClientRepo;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.IClientService;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
 
