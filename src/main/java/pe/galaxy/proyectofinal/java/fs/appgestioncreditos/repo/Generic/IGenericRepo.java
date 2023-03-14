@@ -1,4 +1,4 @@
-package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.Generic;
+package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.Generic;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

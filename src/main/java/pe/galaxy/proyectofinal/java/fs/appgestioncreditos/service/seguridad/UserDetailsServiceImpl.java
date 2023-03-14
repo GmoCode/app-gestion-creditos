@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.seguridad.UserEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.seguridad.UserRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.seguridad.UserRepo;
 
 import static java.util.Objects.isNull;
 

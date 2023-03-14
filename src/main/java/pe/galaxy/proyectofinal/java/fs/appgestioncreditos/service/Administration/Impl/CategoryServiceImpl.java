@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.entity.administration.CategoryEntity;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.repo.administration.ICategoryRepo;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.repo.administration.ICategoryRepo;
 import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.Administration.ICategoryService;
-import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception.ServiceException;
+import pe.galaxy.proyectofinal.java.fs.appgestioncreditos.exception.ServiceException;
 
 import javax.transaction.Transactional;
 import java.util.Comparator;

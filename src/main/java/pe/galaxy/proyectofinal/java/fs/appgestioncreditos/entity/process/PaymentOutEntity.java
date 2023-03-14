@@ -72,7 +72,6 @@ public class PaymentOutEntity {
     @Column(name = "MONTO_TOTAL")
     private Double total;
 
-    @NotNull
     @Column(name = "ESTADO")
     private String status ="1";
 

@@ -1,4 +1,4 @@
-package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.service.exception;
+package pe.galaxy.proyectofinal.java.fs.appgestioncreditos.exception;
 
 public class ServiceException extends Exception {
 

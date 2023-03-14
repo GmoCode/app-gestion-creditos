@@ -33,6 +33,9 @@ public class UserEntity {
 	@Column(name = "NOMBRE")
 	private String name;
 
+	@Column(name = "ESTADO")
+	private String status = "1";
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TBL_USUARIO_AUTHORITY", joinColumns = { @JoinColumn(name = "ID_USUARIO") }, inverseJoinColumns = {
 			@JoinColumn(name = "AUTHORITY_ID") })
